@@ -1,0 +1,138 @@
+---
+// status.astro
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+type ServiceStatus = {
+  name: string;
+  status: string;
+  lastUpdated: string;
+};
+
+const services: ServiceStatus[] = [
+  { name: "Avail", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Allora", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Airchains", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Ar.io", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Dwallet", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Dvolved AI", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "DoraVota", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Sending", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Tangle", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" },
+  { name: "Selfchains", status: "Operational", lastUpdated: "2024-06-25 10:00 UTC" }
+];
+---
+
+<BaseLayout title="Status | Dwentz™" description="Service status page for Dwentz™.">
+  <div class="status-page">
+    <header class="status-header">
+      <h1>Service Status</h1>
+    </header>
+
+    <main class="status-grid">
+      {services.map((service) => (
+        <div class="status-card">
+          <div class={`status-indicator ${service.status.toLowerCase()}`}></div>
+          <h2 class="status-card__name">{service.name}</h2>
+          <p class={`status-card__status ${service.status.toLowerCase()}`}>{service.status}</p>
+          <p class="status-card__last-updated">Last updated: {service.lastUpdated}</p>
+        </div>
+      ))}
+    </main>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+  .status-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: var(--background-gradient); // Background gradient similar to testnet layout
+    color: #fff; // Adjust text color for contrast
+  }
+
+  .status-header {
+    margin-bottom: 2rem;
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 800px;
+
+    @media (min-width: 40em) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .status-card {
+    background: rgba(0, 0, 0, 0.75); // Semi-transparent background for cards
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .status-indicator {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+
+    &.operational {
+      background-color: green;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    &.degraded {
+      background-color: orange;
+    }
+
+    &.outage {
+      background-color: red;
+    }
+  }
+
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+  }
+
+  .status-card__name {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .status-card__status {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+
+    &.operational {
+      color: green;
+    }
+
+    &.degraded {
+      color: orange;
+    }
+
+    &.outage {
+      color: red;
+    }
+  }
+
+  .status-card__last-updated {
+    font-size: 0.875rem;
+    color: #ccc;
+  }
+</style>
